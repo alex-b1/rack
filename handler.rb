@@ -8,7 +8,15 @@ class Handler
   end
 
   def check_format
-    @correct, @incorrect = @params.partition { |i| TIME_LIST[i.to_sym] }
+    @correct = []
+    @incorrect = []
+    @params.each do |i|
+      if TIME_LIST[i.to_sym]
+        @correct << TIME_LIST[i.to_sym]
+      else
+        @incorrect << i
+      end
+    end
   end
 
   def success?
@@ -16,7 +24,6 @@ class Handler
   end
 
   def time
-    formats = @correct.map { |i| TIME_LIST[i.to_sym]}
-    Time.now.strftime(formats.join('-'))
+    Time.now.strftime(@correct.join('-'))
   end
 end
